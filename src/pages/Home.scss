@@ -7,17 +7,19 @@
   justify-content: space-between;
   height: 100vh;
   width: 100vw;
-  //background-color: Variables.$primary-color;
+  background-color: Variables.$secondary-color;
   color: Variables.$text-color-dark;
 
   .home-header {
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     margin-top: 10px;
 
     .home-title {
+      width: fit-content;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -28,7 +30,6 @@
         font-size: 0.8rem;
         margin-right: 6px;
       }
-
     }
 
     .home-title-icon {
@@ -36,6 +37,15 @@
       height: auto;
     }
   }
+
+  .item-column-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
 
   .reaction-container {
     display: flex;
@@ -47,6 +57,30 @@
 
     .reaction-icon {
       width: 60px;
+      height: auto;
+      cursor: pointer;
+    }
+
+    .active {
+      transform: scale(5);
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .reaction-count {
+      font-size: 0.8rem;
+    }
+  }
+
+  .item-row-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+
+    .qr-code {
+      width: 50px;
       height: auto;
       cursor: pointer;
     }

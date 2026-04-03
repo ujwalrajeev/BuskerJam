@@ -35,5 +35,9 @@
       color: Variables.$error-color;
       margin-top: 10px;
     }
+
+    > p {
+      margin-bottom: 20px;
+    }
   }
 }
