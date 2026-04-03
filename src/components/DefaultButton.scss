@@ -1,0 +1,17 @@
+@use "../styles/Variables.scss";
+
+.default-button {
+  padding: 8px 20px 8px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-size: 0.9rem;
+  background-color: Variables.$text-color-dark;
+  color: antiquewhite;
+  margin-top: 10px;
+
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
+}

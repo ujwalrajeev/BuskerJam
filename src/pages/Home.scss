@@ -1,0 +1,54 @@
+@use "../styles/Variables.scss";
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  width: 100vw;
+  //background-color: Variables.$primary-color;
+  color: Variables.$text-color-dark;
+
+  .home-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 10px;
+
+    .home-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 0.6rem;
+      margin-left: 5px;
+
+      > p {
+        font-size: 0.8rem;
+        margin-right: 6px;
+      }
+
+    }
+
+    .home-title-icon {
+      width: 10%;
+      height: auto;
+    }
+  }
+
+  .reaction-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+
+    .reaction-icon {
+      width: 60px;
+      height: auto;
+      cursor: pointer;
+    }
+  }
+}

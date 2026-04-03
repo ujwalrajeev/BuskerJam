@@ -1,0 +1,17 @@
+@use "../styles/Variables.scss";
+.default-input {
+    padding: 8px 10px 8px 10px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-size: 0.9rem;
+    color: Variables.$text-color-dark;
+
+    &:focus {
+        outline: 2px solid Variables.$text-color-dark;
+    }
+}
+
+.bordered-input {
+    border: 2px solid Variables.$text-color-dark;
+}
