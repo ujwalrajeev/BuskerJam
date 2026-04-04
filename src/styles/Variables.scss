@@ -6,8 +6,33 @@ $text-color: #51500e;
 $text-color-dark: #4d5237;
 $error-color: #c14d00;
 
+.item-column-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .item-row-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    gap: 10px;
+  }
+
 .bold-2x {
   font-weight: bold;
+}
+
+.gap-x4 {
+  gap: 40px !important;
+}
+
+.gap-x3 {
+  gap: 30px !important;
 }
 
 .gap-x2 {
@@ -34,12 +59,27 @@ $error-color: #c14d00;
   align-items: center !important;
 }
 
+.justify-center {
+  justify-content: center;
+}
+
 .space-between {
-    justify-content:space-between !important;
+  justify-content: space-between !important;
+}
+
+.space-around {
+  justify-content: space-around !important;
 }
 
 .width-90 {
-    width: 90vw !important;
+  width: 90vw !important;
+}
+
+.width-100p {
+  width: 100% !important;
+}
+.height-100p {
+  height: 100% !important;
 }
 
 .no-select {
@@ -57,31 +97,70 @@ $error-color: #c14d00;
 }
 
 .icon-xs {
-    width: 1rem;
-    height: auto;
+  width: 1rem;
+  height: auto;
 }
 
 .icon-s {
-    width: 2rem;
-    height: auto;
+  width: 2rem;
+  height: auto;
 }
 
 .icon-m {
-    width: 3rem;
-    height: auto;
+  width: 3rem;
+  height: auto;
 }
 
 .icon-l {
-    width: 4rem;
-    height: auto;
+  width: 4rem;
+  height: auto;
 }
 
+.margin-top10 {
+  margin-top: 10px !important;
+}
+
+.margin-bottom10 {
+  margin-bottom: 10px !important;
+}
+
+.margin-left10 {
+  margin-left: 10px !important;
+}
+
+.margin-right10 {
+  margin-right: 10px !important;
+}
+
+.padding-right20 {
+  padding-right: 20px !important;
+}
+
+.padding-left20 {
+  padding-left: 20px !important;
+}
+
+.padding-top20 {
+  padding-top: 20px !important;
+}
+
+.padding-bottom20 {
+  padding-bottom: 20px !important;
+}
+
+.bold-6x {
+  font-weight: 600 !important;
+}
 
 // Test variables
 .test-red {
-    background-color: red !important;
+  background-color: red !important;
 }
 
 .test-green {
-    background-color: green !important;
+  background-color: green !important;
+}
+
+.test-blue {
+  background-color: blue !important;
 }

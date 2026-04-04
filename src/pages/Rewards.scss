@@ -1,0 +1,56 @@
+@use "../styles/Variables.scss";
+
+.rewards-container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background-color: Variables.$primary-color;
+  color: Variables.$text-color-dark;
+  justify-content: space-between;
+  padding: 10px 0 20px 0;
+
+  .title {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .title-icon {
+    width: 2.6rem;
+    height: auto;
+  }
+
+  .rewards-title {
+    font-size: 1.8rem;
+  }
+
+  .stamp {
+    width: 7rem;
+    height: auto;
+  }
+
+  .marquee {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .track {
+    display: flex;
+    width: max-content;
+    animation: scroll 10s linear infinite;
+  }
+
+  .track img {
+    width: 150px;
+    height: auto;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+}
