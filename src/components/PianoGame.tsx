@@ -14,6 +14,7 @@ type Props = {
 
 export default function PianoGame({ gameStarted, setScore }: Props) {
   const [tiles, setTiles] = useState<Tile[]>([]);
+  const [isMissed, setIsMissed] = useState<boolean>(false);
 
   const TILE_HEIGHT = 100;
   const GAME_HEIGHT = 600;
@@ -55,6 +56,10 @@ export default function PianoGame({ gameStarted, setScore }: Props) {
           if (tile.y > MISS_ZONE) {
             // Missed tile
             //setScore((s) => Math.max(0, s - 1)); // reduce score safely
+            setIsMissed(true);
+            setTimeout(() => {
+              setIsMissed(false);
+            }, 1000);
           } else {
             remainingTiles.push(tile);
           }
@@ -108,6 +113,11 @@ export default function PianoGame({ gameStarted, setScore }: Props) {
           </div>
         ))}
       </div>
+      {isMissed && (
+        <div className="missed-tile">
+          <p>MISS</p>
+        </div>
+      )}
     </div>
   );
 }
