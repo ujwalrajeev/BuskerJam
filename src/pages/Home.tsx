@@ -74,9 +74,9 @@ function Home() {
   };
 
   const handleProgressBar = () => {
-    var calcPercentage = (score / 5) * 100;
+    var calcPercentage = (score / 15) * 100;
     setPercentage(calcPercentage);
-    if (score >= 5) {
+    if (score >= 15) {
       setRunConfetti(false);
       setTimeout(() => {
         setRunConfetti(true);
@@ -96,6 +96,13 @@ function Home() {
     });
   };
 
+  const exitGame = () => {
+    setGameStarted(false);
+    setTimeLeft(60);
+    setScore(0);
+    setSpeed(800);
+  };
+
   useEffect(() => {
     if (gameStarted) {
       const interval = setInterval(() => {
@@ -109,22 +116,21 @@ function Home() {
   useEffect(() => {
     if (!gameStarted) return;
 
-    const timer = setInterval(() => {
-      setTimeLeft((t) => {
-        if (t <= 1) {
-          setGameStarted(false);
-          setTimeLeft(60);
-          setScore(0);
-          setSpeed(800);
-          return 0;
-        }
-        setSpeed((s) => Math.max(300, s - 20));
-        return t - 1;
-      });
-    }, 1000);
+    if (selectedInstrument === "Drums") {
+      const timer = setInterval(() => {
+        setTimeLeft((t) => {
+          if (t <= 1) {
+            exitGame();
+            return 0;
+          }
+          setSpeed((s) => Math.max(300, s - 20));
+          return t - 1;
+        });
+      }, 1000);
 
-    return () => clearInterval(timer);
-  }, [gameStarted]);
+      return () => clearInterval(timer);
+    }
+  }, [gameStarted, selectedInstrument]);
 
   useEffect(() => {
     handleProgressBar();
@@ -280,69 +286,66 @@ function Home() {
       )}
 
       <div className="item-column-container">
-        <div className="reaction-container">
-          <div className="reaction-item">
-            <img
-              src="./icons/like.png"
-              alt="Like Icon"
-              className={
-                "reaction-icon no-select no-drag no-highlight" +
-                (active === "like" ? " active" : "")
-              }
-              onClick={() =>
-                handleReactionClick("like", {
-                  ...reactionCount,
-                  like: reactionCount.like + 1,
-                })
-              }
-            />
-            <span className="reaction-count">{reactionCount.like}</span>
-          </div>
+        {!gameStarted && (
+          <div className="reaction-container">
+            <div className="reaction-item">
+              <img
+                src="./icons/like.png"
+                alt="Like Icon"
+                className={
+                  "reaction-icon no-select no-drag no-highlight" +
+                  (active === "like" ? " active" : "")
+                }
+                onClick={() =>
+                  handleReactionClick("like", {
+                    ...reactionCount,
+                    like: reactionCount.like + 1,
+                  })
+                }
+              />
+              <span className="reaction-count">{reactionCount.like}</span>
+            </div>
 
-          <div className="reaction-item">
-            <img
-              src="./icons/love.png"
-              alt="Love Icon"
-              className={
-                "reaction-icon no-select no-drag no-highlight" +
-                (active === "love" ? " active" : "")
-              }
-              onClick={() =>
-                handleReactionClick("love", {
-                  ...reactionCount,
-                  love: reactionCount.love + 1,
-                })
-              }
-            />
-            <span className="reaction-count">{reactionCount.love}</span>
+            <div className="reaction-item">
+              <img
+                src="./icons/love.png"
+                alt="Love Icon"
+                className={
+                  "reaction-icon no-select no-drag no-highlight" +
+                  (active === "love" ? " active" : "")
+                }
+                onClick={() =>
+                  handleReactionClick("love", {
+                    ...reactionCount,
+                    love: reactionCount.love + 1,
+                  })
+                }
+              />
+              <span className="reaction-count">{reactionCount.love}</span>
+            </div>
+            <div className="reaction-item">
+              <img
+                src="./icons/clap.png"
+                alt="Clap Icon"
+                className={
+                  "reaction-icon no-select no-drag no-highlight" +
+                  (active === "clap" ? " active" : "")
+                }
+                onClick={() =>
+                  handleReactionClick("clap", {
+                    ...reactionCount,
+                    clap: reactionCount.clap + 1,
+                  })
+                }
+              />
+              <span className="reaction-count">{reactionCount.clap}</span>
+            </div>
           </div>
-          <div className="reaction-item">
-            <img
-              src="./icons/clap.png"
-              alt="Clap Icon"
-              className={
-                "reaction-icon no-select no-drag no-highlight" +
-                (active === "clap" ? " active" : "")
-              }
-              onClick={() =>
-                handleReactionClick("clap", {
-                  ...reactionCount,
-                  clap: reactionCount.clap + 1,
-                })
-              }
-            />
-            <span className="reaction-count">{reactionCount.clap}</span>
-          </div>
-        </div>
-
+        )}
+        {gameStarted && <DefaultButton text="Exit" onClick={exitGame} />}
         <div className="item-row-container">
           <div className="item-row-container">
-            <img
-              src="./icons/qr.png"
-              alt="QR Code"
-              className="qr-code"
-              onClick={goFullScreen}
-            />
+            <img src="./icons/qr.png" alt="QR Code" className="qr-code" />
             <div className="item-column-container gap-x left-align">
               <p>Scan, support, collect stamps </p>
               <span className="item-row-container gap-x">

@@ -85,7 +85,7 @@ export default function PianoGame({ gameStarted, setScore }: Props) {
     return () => clearInterval(spawn);
   }, [gameStarted]);
 
-  // REmove offscreen tiles
+  // Remove offscreen tiles
   useEffect(() => {
     setTiles((prev) => prev.filter((tile) => tile.y < GAME_HEIGHT));
   }, [tiles]);
