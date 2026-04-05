@@ -1,8 +1,11 @@
 import "./Login.scss";
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { auth, db } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import DefaultInput from "../components/DefaultInput";
 import DefaultButton from "../components/DefaultButton";
 import DefaultDropdown from "../components/DefaultDropdown";
@@ -10,8 +13,10 @@ import DefaultDropdown from "../components/DefaultDropdown";
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [fullName, setFullName] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [signedIn, setSignedIn] = useState<boolean>(false);
+  const [isRegistered, setIsRegistered] = useState<boolean>(true);
   const [selectedInstrument, setSelectedInstrument] =
     useState<string>("Select Instrument");
 
@@ -27,12 +32,30 @@ export default function Login() {
     }
   };
 
+  const signUp = async (email: string, password: string, fullName: string) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(db, "buskerData", email), {
+        fullName,
+        totalScore: 0,
+      });
+
+      setIsRegistered(true);
+      setSignedIn(true);
+      setError("");
+      console.log(email);
+      localStorage.setItem("buskerEmail", email);
+      getBusker(email);
+    } catch (error) {
+      setError("Something went wrong! please try again");
+    }
+  };
+
   const handleRouting = () => {
     if (selectedInstrument === "Select Instrument") {
       setError("Please select an instrument");
       return;
     }
-    // Redirect to the appropriate page based on the selected instrument
     window.location.href = "/home";
   };
 
@@ -58,7 +81,8 @@ export default function Login() {
         <h1>BuskerJam</h1>
       </div>
       <p>Share your music with the world</p>
-      {!signedIn && (
+
+      {!signedIn && isRegistered && (
         <div className="auth-container">
           <DefaultInput
             placeholder="Username"
@@ -73,7 +97,57 @@ export default function Login() {
             type="password"
           />
           <DefaultButton text="Login" onClick={handleLogin} />
-          {error && <p className="error-message">{error}</p>}
+          {error !== "" && <p className="error-message">{error}</p>}
+          <div className="item-row-container">
+            <p>Not registered yet?</p>
+            <DefaultButton
+              text="Register"
+              onClick={() => setIsRegistered(false)}
+            />
+          </div>
+        </div>
+      )}
+
+      {!isRegistered && (
+        <div className="auth-container">
+          <div className="item-column-container">
+            <DefaultInput
+              placeholder="Enter your full name"
+              type="text"
+              value={fullName === "" ? "" : fullName}
+              className="bordered-input"
+              onChange={(e) => {
+                setFullName(e.target.value);
+              }}
+            />
+            <DefaultInput
+              placeholder="Enter your email"
+              type="text"
+              value={email === "" ? "" : email}
+              className="bordered-input"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
+            <DefaultInput
+              placeholder="Enter your password"
+              type="password"
+              value={password === "" ? "" : password}
+              className="bordered-input"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
+            <DefaultButton
+              text="Register"
+              onClick={() => signUp(email, password, fullName)}
+            />
+            {error !== "" && <p className="error-message">{error}</p>}
+          </div>
+          <div className="item-row-container">
+            <p>Have an account?</p>
+            <DefaultButton text="Login" onClick={() => setIsRegistered(true)} />
+          </div>
         </div>
       )}
       {signedIn && (

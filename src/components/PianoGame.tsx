@@ -33,7 +33,7 @@ export default function PianoGame({ gameStarted, setScore }: Props) {
       setScore((s) => s + 1);
     } else {
       // bad click (optional penalty)
-      setScore((s) => Math.max(0, s - 1));
+      //setScore((s) => Math.max(0, s - 1));
     }
   };
 
@@ -54,7 +54,7 @@ export default function PianoGame({ gameStarted, setScore }: Props) {
         updatedTiles.forEach((tile) => {
           if (tile.y > MISS_ZONE) {
             // Missed tile
-            setScore((s) => Math.max(0, s - 1)); // reduce score safely
+            //setScore((s) => Math.max(0, s - 1)); // reduce score safely
           } else {
             remainingTiles.push(tile);
           }
