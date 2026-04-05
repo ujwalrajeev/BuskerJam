@@ -9,6 +9,7 @@
   color: Variables.$text-color-dark;
   justify-content: space-between;
   padding: 10px 0 20px 0;
+  align-items: center;
 
   .title {
     font-size: 1.2rem;
@@ -24,6 +25,10 @@
     font-size: 1.8rem;
   }
 
+  .welcome-text {
+    font-size: 1.2rem;
+  }
+
   .stamp {
     width: 7rem;
     height: auto;
@@ -31,7 +36,7 @@
 
   .marquee {
     overflow: hidden;
-    width: 100%;
+    width: 100vw;
   }
 
   .track {
@@ -40,9 +45,21 @@
     animation: scroll 10s linear infinite;
   }
 
+  .track-nomove {
+    animation: none;
+  }
+
   .track img {
     width: 150px;
     height: auto;
+  }
+
+  .question-container {
+    background-color: white;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    width: 90%;
+    border-radius: 15px;
   }
 
   @keyframes scroll {

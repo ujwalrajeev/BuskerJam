@@ -7,6 +7,9 @@ import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
 import { Progress } from "rsuite";
 import "rsuite/dist/rsuite.min.css";
+import PianoGame from "../components/PianoGame";
+import { updateDoc, doc, increment } from "firebase/firestore";
+import { db } from "../firebase";
 
 function Home() {
   const [reactionCount, setReactionCount] = useState({
@@ -26,7 +29,11 @@ function Home() {
     { name: "Player 2", score: 0 },
     { name: "Player 3", score: 0 },
   ]);
-  const [totalScore, setTotalScore] = useState<number>(0);
+  const buskerEmail = localStorage.getItem("buskerEmail");
+  const buskerData = JSON.parse(localStorage.getItem("buskerData") || "{}");
+  const [totalScore, setTotalScore] = useState<number>(
+    parseInt(buskerData.totalScore) || 0,
+  );
   const [percentage, setPercentage] = useState<number>(0);
 
   const [gameStarted, setGameStarted] = useState<boolean>(false);
@@ -67,14 +74,26 @@ function Home() {
   };
 
   const handleProgressBar = () => {
-    var calcPercentage = (score / 15) * 100;
+    var calcPercentage = (score / 5) * 100;
     setPercentage(calcPercentage);
-    if (calcPercentage === 100) {
-      setRunConfetti(true);
-      setTotalScore((s) => s + 1);
+    if (score >= 5) {
+      setRunConfetti(false);
+      setTimeout(() => {
+        setRunConfetti(true);
+      }, 0);
+
+      setTotalScore((prev) => prev + 1);
       setPercentage(0);
-      //setScore(0);
+      setScore(0);
     }
+  };
+
+  const updateTotalScore = async (email: string, value: number) => {
+    const ref = doc(db, "buskerData", email);
+
+    await updateDoc(ref, {
+      totalScore: value,
+    });
   };
 
   useEffect(() => {
@@ -125,6 +144,14 @@ function Home() {
     });
   }, [score]);
 
+  useEffect(() => {
+    if (buskerEmail) {
+      updateTotalScore(buskerEmail, totalScore);
+      const updatedData = { ...buskerData, totalScore: totalScore };
+      localStorage.setItem("buskerData", JSON.stringify(updatedData));
+    }
+  }, [totalScore]);
+
   return (
     <div className="home-container">
       <Confetti
@@ -141,7 +168,6 @@ function Home() {
           w: 0,
           h: 0,
         }}
-        colors={["#f41111"]}
       />
       <div className="progress-bar">
         <Progress.Line
@@ -209,18 +235,10 @@ function Home() {
         <div className="item-column-container gap-x2 left-align">
           <span className="item-row-container gap-x">
             <p>Jam with</p>
-            <p className="bold-2x">Kongappi</p>
+            <p className="bold-2x">{buskerData.fullName}</p>
           </span>
           <DefaultDropdown
-            options={[
-              "Select Instrument",
-              "Guitar",
-              "Piano",
-              "Drums",
-              "Violin",
-              "Flute",
-              "Cello",
-            ]}
+            options={["Select Instrument", "Piano", "Drums"]}
             value={selectedInstrument}
             onChange={(value) => setSelectedInstrument(value)}
           />
@@ -239,7 +257,7 @@ function Home() {
         </div>
       )}
 
-      {gameStarted && (
+      {gameStarted && selectedInstrument === "Drums" && (
         <div className="game">
           <div className="grid">
             {[...Array(9)].map((_, i) => (
@@ -255,6 +273,10 @@ function Home() {
             <div className="score">Time left: {timeLeft}</div>
           </div>
         </div>
+      )}
+
+      {gameStarted && selectedInstrument === "Piano" && (
+        <PianoGame gameStarted={gameStarted} setScore={setScore} />
       )}
 
       <div className="item-column-container">

@@ -1,7 +1,8 @@
 import "./Login.scss";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 import DefaultInput from "../components/DefaultInput";
 import DefaultButton from "../components/DefaultButton";
 import DefaultDropdown from "../components/DefaultDropdown";
@@ -17,9 +18,10 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // Redirect to home page or dashboard after successful login
       setError("");
       setSignedIn(true);
+      localStorage.setItem("buskerEmail", email);
+      getBusker(email);
     } catch (error) {
       setError("Invalid email or password");
     }
@@ -32,6 +34,17 @@ export default function Login() {
     }
     // Redirect to the appropriate page based on the selected instrument
     window.location.href = "/home";
+  };
+
+  const getBusker = async (email: string) => {
+    const ref = doc(db, "buskerData", email);
+    const snap = await getDoc(ref);
+
+    if (snap.exists()) {
+      localStorage.setItem("buskerData", JSON.stringify(snap.data()));
+    } else {
+      return null;
+    }
   };
 
   return (
