@@ -98,7 +98,7 @@ export default function Login() {
           />
           <DefaultButton text="Login" onClick={handleLogin} />
           {error !== "" && <p className="error-message">{error}</p>}
-          <div className="item-row-container">
+          <div className="item-column-container">
             <p>Not registered yet?</p>
             <DefaultButton
               text="Register"
