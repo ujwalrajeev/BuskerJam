@@ -77,11 +77,6 @@ function Home() {
     var calcPercentage = (score / 10) * 100;
     setPercentage(calcPercentage);
     if (score >= 10) {
-      setRunConfetti(false);
-      setTimeout(() => {
-        setRunConfetti(true);
-      }, 0);
-
       setTotalScore((prev) => prev + 1);
       setPercentage(0);
       setScore(0);
@@ -102,6 +97,16 @@ function Home() {
     setScore(0);
     setSpeed(800);
   };
+
+  useEffect(() => {
+    if (gameStarted) {
+      setRunConfetti(true);
+      setTimeout(() => {
+        console.log("here");
+        setRunConfetti(false);
+      }, 5000);
+    }
+  }, [totalScore]);
 
   useEffect(() => {
     if (gameStarted) {
@@ -160,21 +165,24 @@ function Home() {
 
   return (
     <div className="home-container">
-      <Confetti
-        width={width}
-        height={height}
-        numberOfPieces={300}
-        recycle={false}
-        initialVelocityX={-10}
-        initialVelocityY={0}
-        run={runCofetti}
-        confettiSource={{
-          x: width - 20,
-          y: 50,
-          w: 0,
-          h: 0,
-        }}
-      />
+      {runCofetti && (
+        <Confetti
+          width={width}
+          height={height}
+          numberOfPieces={300}
+          recycle={true}
+          initialVelocityX={-10}
+          initialVelocityY={0}
+          run={runCofetti}
+          confettiSource={{
+            x: width - 20,
+            y: 50,
+            w: 0,
+            h: 0,
+          }}
+        />
+      )}
+
       <div className="progress-bar">
         <Progress.Line
           percent={percentage}
