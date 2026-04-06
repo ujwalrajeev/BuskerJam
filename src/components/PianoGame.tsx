@@ -20,7 +20,7 @@ export default function PianoGame({ gameStarted, setScore }: Props) {
   const GAME_HEIGHT = 600;
   const MOVE_SPEED = 10;
   const SPAWN_RATE = 800;
-  const HIT_ZONE = 450;
+  const HIT_ZONE = 200;
   const MISS_ZONE = 550;
 
   // Click tile

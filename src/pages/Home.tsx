@@ -74,9 +74,9 @@ function Home() {
   };
 
   const handleProgressBar = () => {
-    var calcPercentage = (score / 15) * 100;
+    var calcPercentage = (score / 10) * 100;
     setPercentage(calcPercentage);
-    if (score >= 15) {
+    if (score >= 10) {
       setRunConfetti(false);
       setTimeout(() => {
         setRunConfetti(true);
@@ -116,7 +116,7 @@ function Home() {
   useEffect(() => {
     if (!gameStarted) return;
 
-    if (selectedInstrument === "Drums") {
+    if (selectedInstrument === "Guitar") {
       const timer = setInterval(() => {
         setTimeLeft((t) => {
           if (t <= 1) {
@@ -276,7 +276,7 @@ function Home() {
           </div>
           <div className="item-row-container gap-x4">
             <div className="score">Score: {score}</div>
-            <div className="score">Time left: {timeLeft}</div>
+            {/* <div className="score">Time left: {timeLeft}</div> */}
           </div>
         </div>
       )}
